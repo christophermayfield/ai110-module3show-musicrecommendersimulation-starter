@@ -359,6 +359,9 @@ Read and complete `model_card.md`:
 3. **Simple works**: Even a basic content-based recommender produces sensible results with thoughtful features
 4. **Data flow clarity**: Understanding the INPUT → PROCESS → OUTPUT flow helps debug and improve the system
 
+
+
+
 ---
 
 ## Model Card Template
@@ -368,7 +371,11 @@ Read and complete `model_card.md`:
 
 ## 1. Model Name
 
-Give your recommender a name, for example:
+Give your recommender a name, for example: My awesome music recommender. 
+
+
+
+
 
 > VibeFinder 1.0
 
