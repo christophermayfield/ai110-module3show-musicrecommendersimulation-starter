@@ -6,6 +6,7 @@ to song attributes like genre, mood, energy, valence, tempo, and acousticness.
 """
 
 import csv
+import heapq
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Tuple
 
@@ -414,6 +415,9 @@ class Recommender:
         """
         Generate song recommendations for a user.
 
+        Uses heapq.nlargest() for O(n log k) efficiency instead of O(n log n) full sort.
+        This is optimal for large catalogs with small k values.
+
         Args:
             user: UserProfile with preferences
             k: Number of recommendations to return
@@ -421,20 +425,17 @@ class Recommender:
         Returns:
             List of Song objects sorted by relevance score (highest first)
         """
-        # Score all songs
-        scored_songs = []
-        for song in self.songs:
-            score, _ = self._calculate_feature_score(user, song)
-            scored_songs.append((song, score))
-
-        # Sort by score descending
-        scored_songs.sort(key=lambda x: x[1], reverse=True)
+        # Use heapq.nlargest for O(n log k) efficiency
+        # This avoids sorting all songs and only keeps the top k in memory
+        top_songs = heapq.nlargest(
+            k, self.songs, key=lambda song: self.get_score(user, song)
+        )
 
         # Apply diversity constraint (max 2 songs per artist)
         recommendations = []
         artist_counts = {}
 
-        for song, score in scored_songs:
+        for song in top_songs:
             artist = song.artist
             if artist_counts.get(artist, 0) < 2:  # Max 2 songs per artist
                 recommendations.append(song)
