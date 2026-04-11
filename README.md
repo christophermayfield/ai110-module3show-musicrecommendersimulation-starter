@@ -313,28 +313,29 @@ Tested with the personal taste profile:
 ## Limitations and Risks
 
 ### Data Limitations
-- **Small catalog**: Only 20 songs compared to Spotify's 100M+ tracks
-- **Limited genres**: Missing many genres (country, metal, classical, hip-hop, etc.)
-- **Binary mood matching**: "happy" or "not happy" misses nuance (e.g., "euphoric" vs "content")
+- **Small catalog**: Only 20 songs compared to Spotify's 100M+ tracks.
+- **Limited genres**: Missing many genres (country, metal, classical, hip-hop, etc.).
+- **Simple Categorical Matching**: Uses binary matching for genre and mood. It doesn't understand that "Lo-fi" and "Chillhop" are related, or that "Happy" and "Energetic" moods often overlap.
 
 ### Technical Limitations
-- **No collaborative filtering**: Cannot leverage "users like you also liked X"
-- **Static user profile**: Preferences don't change over time
-- **No context awareness**: Doesn't consider time of day, activity, or location
-- **Arbitrary weights**: Weights (genre=2.0, etc.) were chosen heuristically, not learned
+- **No collaborative filtering**: Cannot leverage "users like you also liked X" (no serendipity).
+- **Stateless (No Learning)**: Preferences don't change over time; the system doesn't learn from user skips or likes.
+- **Linear Scoring Logic**: Uses a simple weighted average which may fail to capture the complex, non-linear relationships that define a musical "vibe."
+- **Scale and Performance**: Performs a linear scan (O(N)) of the entire catalog, which wouldn't scale to millions of tracks without an index.
+- **Arbitrary Global Weights**: Feature weights are hardcoded and apply to all users equally, regardless of individual priorities.
 
 ### Potential Risks
-- **Filter bubble**: Users only get songs similar to what they already like
-- **Genre bias**: Popular genres (pop, lofi) have more representation
-- **Opaque scoring**: Users don't understand why "Night Drive Loop" was recommended
-- **Cold start**: New genres or moods have no data to match against
+- **Filter bubble**: Users only get songs similar to what they already like, preventing discovery of new styles.
+- **Genre bias**: Popular genres (pop, lofi) have more representation in the sample data.
+- **Limited Result Diversity**: While it avoids artist repeats, it doesn't guarantee a mix of genres or moods in the top recommendations.
+- **Cold start**: New genres or moods have no data to match against.
 
 ### "Vibe" Subjectivity
 The features we chose (energy, valence, tempo) align with some musical experiences but miss:
-- **Cultural context**: Same tempo can feel different in different genres
-- **Lyric themes**: Content-based filtering ignores semantics
-- **Production quality**: Audio features don't capture "warmth" or "crunch"
-- **Personal associations**: A song might match mathematically but not emotionally
+- **Cultural context**: Same tempo can feel different in different genres.
+- **Lyric themes**: Content-based filtering ignores the meaning of songs.
+- **Production quality**: Audio features don't capture "warmth," "crunch," or "depth."
+- **Personal associations**: A song might match mathematically but not emotionally.
 
 You will go deeper on this in your model card.
 
@@ -449,6 +450,8 @@ Examples:
 
 You do not need a numeric metric, but if you used one, explain what it measures.
 
+-I tried multiple user profiles to see how they act. 
+
 ---
 
 ## 8. Future Work
@@ -463,6 +466,8 @@ Examples:
 - Add collaborative filtering to learn from other users
 - Implement context awareness (time of day, activity type)
 
+-I would add collaborative filtering to learn from other users to give a more thorough recommendation.
+
 ---
 
 ## 9. Personal Reflection
@@ -472,3 +477,6 @@ A few sentences about what you learned:
 - What surprised you about how your system behaved
 - How did building this change how you think about real music recommenders
 - Where do you think human judgment still matters, even if the model seems "smart"
+
+-I was suprised that the model was pretty simple to giving out a recommendation.
+-This was quite the learning experience.

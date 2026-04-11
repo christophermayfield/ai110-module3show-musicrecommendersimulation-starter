@@ -169,6 +169,59 @@ def run_preset_demos(songs: list):
     )
 
 
+def run_edge_case_demos(songs: list):
+    """Run demonstrations with adversarial and edge-case user profiles."""
+
+    # Edge Case 1: Conflicting High Energy / Sad Mood
+    demonstrate_with_user_profile(
+        "Adversarial: High Energy Sadness",
+        {
+            "genre": "electronic",
+            "mood": "sad",
+            "energy": 0.95,
+            "valence": 0.1,
+            "tempo": 140,
+            "acoustic": False,
+        },
+        songs,
+        k=3,
+    )
+
+    input("\n⏸️  Press Enter to continue to the next edge case...")
+
+    # Edge Case 2: Extreme Minimalist (Zero Energy/Acoustic)
+    demonstrate_with_user_profile(
+        "Edge Case: The Ultra Minimalist",
+        {
+            "genre": "ambient",
+            "mood": "chill",
+            "energy": 0.05,
+            "valence": 0.05,
+            "tempo": 40,
+            "acoustic": True,
+        },
+        songs,
+        k=3,
+    )
+
+    input("\n⏸️  Press Enter to continue to the next edge case...")
+
+    # Edge Case 3: Conflicting Fast Acoustic
+    demonstrate_with_user_profile(
+        "Adversarial: Fast Acoustic",
+        {
+            "genre": "jazz",
+            "mood": "happy",
+            "energy": 0.5,
+            "valence": 0.8,
+            "tempo": 180,
+            "acoustic": True,
+        },
+        songs,
+        k=3,
+    )
+
+
 def print_summary():
     """Print a summary of the system."""
     print("\n" + "=" * 60)
@@ -216,23 +269,26 @@ def main():
         print("  MENU")
         print("=" * 60)
         print("  1. 🎬 Run preset demos (4 user profiles)")
-        print("  2. 📊 View system summary")
-        print("  3. 🚪 Exit")
+        print("  2. 🧪 Run edge-case & adversarial demos")
+        print("  3. 📊 View system summary")
+        print("  4. 🚪 Exit")
         print()
 
-        choice = input("Select an option (1-3): ").strip()
+        choice = input("Select an option (1-4): ").strip()
 
         if choice == "1":
             run_preset_demos(songs)
         elif choice == "2":
+            run_edge_case_demos(songs)
+        elif choice == "3":
             print_summary()
             input("\n⏸️  Press Enter to return to menu...")
-        elif choice == "3":
+        elif choice == "4":
             print("\n👋 Thanks for using the Music Recommender!")
             print("🎵 Happy listening!\n")
             break
         else:
-            print("\n⚠️  Invalid choice. Please select 1-3.\n")
+            print("\n⚠️  Invalid choice. Please select 1-4.\n")
 
 
 if __name__ == "__main__":

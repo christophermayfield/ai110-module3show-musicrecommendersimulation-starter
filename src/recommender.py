@@ -119,6 +119,7 @@ class TasteProfile:
         favorite_artists: List[str] = None,
         avoided_attributes: List[str] = None,
     ):
+        """Initialize a comprehensive taste profile with detailed musical preferences."""
         self.primary_genre = primary_genre
         self.secondary_genres = secondary_genres or []
         self.primary_mood = primary_mood
